@@ -9,6 +9,8 @@ namespace Test1
     class Program
     {
         static int fiveH, twoH, oneH, fifty, twenty, ten;
+        static IDictionary<int, int> bills = new Dictionary<int, int>();
+        static List<int> billsList = new List<int>();
 
         static void Input()
         {
@@ -32,13 +34,7 @@ namespace Test1
             twenty = 21;
             ten = 43;
             //Console.WriteLine("");
-        }
 
-        static void Task()
-        {
-            int sum = 0;
-
-            IDictionary<int, int> bills = new Dictionary<int, int>();
             bills.Add(500, fiveH);
             bills.Add(200, twoH);
             bills.Add(100, oneH);
@@ -46,15 +42,31 @@ namespace Test1
             bills.Add(20, twenty);
             bills.Add(10, ten);
 
-            List<int> res = new List<int>();
+            billsList.Add(500);
+            billsList.Add(200);
+            billsList.Add(100);
+            billsList.Add(50);
+            billsList.Add(20);
+            billsList.Add(10);
+        }
 
+        static void Print()
+        {
             Console.WriteLine("Avaliable bills: ");
-            for (int i = 0; i < bills.Count; i++)
+
+            foreach (var bill in bills)
             {
                 Console.WriteLine("  {0}  -  {1}",
-                                            bills.Keys.ElementAt(i),
-                                            bills[bills.Keys.ElementAt(i)]);
+                                            bill.Key,
+                                            bill.Value);
             }
+        }
+
+        static void Task()
+        {
+            int sum = 0;
+            List<int> res = new List<int>();
+
             Console.Write("Input the count of money you want to output: ");
             sum = Convert.ToInt16(Console.ReadLine());
 
@@ -63,9 +75,11 @@ namespace Test1
             {
                 while (sum >= bill.Key)
                 {
-                    sum -= bill.Key;
                     if (tmp < bill.Value)
+                    {
+                        sum -= bill.Key;
                         tmp++;
+                    }
                     else
                         break;
                 }
@@ -75,18 +89,53 @@ namespace Test1
 
             Console.WriteLine();
             Console.WriteLine(" Result: " + string.Join(", ", res));
+
+            int k = 0;
+            while (k < billsList.Count)
+            {
+                bills[billsList[k]] -= res.ElementAt(k);
+                k++;
+            }
         }
 
         static void Main(string[] args)
         {
-            /*Console.WriteLine("   Data input ");
-            Console.WriteLine("");*/
             Input();
-            /*Console.WriteLine("=======================================");
+            int n;
+            do
+            {
+                Console.WriteLine("-------------------------------------");
+                Console.WriteLine("[ 1 ] Check avaliable bills");
+                Console.WriteLine("[ 2 ] Output the money");
+                Console.WriteLine("[ 0 ] Exit");
+                Console.WriteLine("-------------------------------------");
+                Console.Write("  Input your choice: ");
+                n = Int32.Parse(Console.ReadLine());
+                switch (n)
+                {
+                    case 1:
+                        Print();
+                        break;
+                    case 2:
+                        Task();
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        Console.WriteLine(" Input the correct operation number (1, 2, 0)");
+                        break;
+                }
+            }
+            while (n != 0);
+
+            /*Console.WriteLine("   Data input ");
             Console.WriteLine("");
-            Console.WriteLine("   Client view");*/
+            Input();
+            Console.WriteLine("=======================================");
             Console.WriteLine("");
-            Task();
+            Console.WriteLine("   Client view");
+            Console.WriteLine("");
+            Task();*/
             Console.WriteLine("");
         }
     }
