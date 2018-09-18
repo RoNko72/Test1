@@ -73,6 +73,7 @@ namespace Test1
             int sum = 0;
             List<int> res = new List<int>();
             string sumTry = "";
+
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Input the count of money you want to output: ");
             sumTry = Console.ReadLine();
