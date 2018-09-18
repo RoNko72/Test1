@@ -72,18 +72,27 @@ namespace Test1
         {
             int sum = 0;
             List<int> res = new List<int>();
-
+            string sumTry = "";
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Input the count of money you want to output: ");
-            sum = Convert.ToInt32(Console.ReadLine());
+            sumTry = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.White;
 
-            if (sum <= 0)
+            bool success = Int32.TryParse(sumTry, out sum);
+            if (success)
             {
-                Console.WriteLine("Input the correct sum! ( Your sum is <= 0)");
-            }
-            else
+                if (sum <= 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Input the correct sum! ( Your sum is <= 0)");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
                 if (sum > countOfMoneyInBankomat)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(" Balance is lower than your sum :( ");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 else
                 {
@@ -105,7 +114,9 @@ namespace Test1
                     }
 
                     Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine(" Result: " + string.Join(", ", res));
+                    Console.ForegroundColor = ConsoleColor.White;
 
                     int k = 0;
                     while (k < billsList.Count)
@@ -114,6 +125,13 @@ namespace Test1
                         k++;
                     }
                 }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Uncorrect sum!");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
 
         static void Main(string[] args)
@@ -140,7 +158,9 @@ namespace Test1
                     case 0:
                         break;
                     default:
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine(" Input the correct operation number (1, 2, 0)");
+                        Console.ForegroundColor = ConsoleColor.White;
                         break;
                 }
             }
