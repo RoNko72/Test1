@@ -11,6 +11,7 @@ namespace Test1
         static int fiveH, twoH, oneH, fifty, twenty, ten;
         static IDictionary<int, int> bills = new Dictionary<int, int>();
         static List<int> billsList = new List<int>();
+        static int countOfMoneyInBankomat;
 
         static void Input()
         {
@@ -48,6 +49,11 @@ namespace Test1
             billsList.Add(50);
             billsList.Add(20);
             billsList.Add(10);
+
+            foreach (var bill in bills)
+            {
+                countOfMoneyInBankomat += bill.Key * bill.Value;
+            }
         }
 
         static void Print()
@@ -68,34 +74,46 @@ namespace Test1
             List<int> res = new List<int>();
 
             Console.Write("Input the count of money you want to output: ");
-            sum = Convert.ToInt16(Console.ReadLine());
+            sum = Convert.ToInt32(Console.ReadLine());
 
-            int tmp = 0;
-            foreach(var bill in bills)
+            if (sum <= 0)
             {
-                while (sum >= bill.Key)
+                Console.WriteLine("Input the correct sum! ( Your sum is <= 0)");
+            }
+            else
+                if (sum > countOfMoneyInBankomat)
                 {
-                    if (tmp < bill.Value)
-                    {
-                        sum -= bill.Key;
-                        tmp++;
-                    }
-                    else
-                        break;
+                    Console.WriteLine(" Balance is lower than your sum :( ");
                 }
-                res.Add(tmp);
-                tmp = 0;
-            }
+                else
+                {
+                    int tmp = 0;
+                    foreach (var bill in bills)
+                    {
+                        while (sum >= bill.Key)
+                        {
+                            if (tmp < bill.Value)
+                            {
+                                sum -= bill.Key;
+                                tmp++;
+                            }
+                            else
+                                break;
+                        }
+                        res.Add(tmp);
+                        tmp = 0;
+                    }
 
-            Console.WriteLine();
-            Console.WriteLine(" Result: " + string.Join(", ", res));
+                    Console.WriteLine();
+                    Console.WriteLine(" Result: " + string.Join(", ", res));
 
-            int k = 0;
-            while (k < billsList.Count)
-            {
-                bills[billsList[k]] -= res.ElementAt(k);
-                k++;
-            }
+                    int k = 0;
+                    while (k < billsList.Count)
+                    {
+                        bills[billsList[k]] -= res.ElementAt(k);
+                        k++;
+                    }
+                }
         }
 
         static void Main(string[] args)
